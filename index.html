@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ComplyPilot AI Solutions | AI-Driven Food Safety & Compliance Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --navy:#0A1C33;--navy-mid:#0E2A4A;--navy-deep:#06121F;--navy-card:#0F2A4A;
+  --cyan:#16C7C7;--cyan-dim:#0FA3A8;--cyan-glow:rgba(22,199,199,0.18);
+  --electric:#2F6FED;--electric-dim:#2557C4;
+  --green:#1FBE82;
+  --nav-bg:#0A1C33;--footer-bg:#06121F;
+  --bg-white:#EEF5FF;--bg-light:#E2EEFF;--bg-section:#D6E6FF;
+  --card-border:rgba(22,199,199,0.15);
+  --text-dark:#0A1C33;--text-mid:#1C3556;--text-muted:#445C82;--text-light:#7188AC;--white:#FFFFFF;
+  --nav-h:72px;--max-w:1200px;
+  --font:'Plus Jakarta Sans',sans-serif;--display:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.4,0,0.2,1);--ease-out:cubic-bezier(0,0,0.2,1);
+}
+body{font-family:var(--font);color:var(--text-dark);background:var(--bg-white);overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg-light);}::-webkit-scrollbar-thumb{background:var(--cyan-dim);border-radius:2px;}
+img{display:block;max-width:100%;}
+
+/* NAV */
+.navbar{position:fixed;top:0;left:0;width:100%;height:var(--nav-h);background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid rgba(22,199,199,0.2);z-index:1000;display:flex;align-items:center;padding:0 clamp(16px,5vw,60px);justify-content:space-between;box-shadow:0 2px 24px rgba(0,0,0,0.6);}
+.nav-logo{font-family:var(--display);font-size:17px;font-weight:800;color:var(--white);display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.nav-logo-icon{width:40px;height:40px;background:rgba(22,199,199,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(22,199,199,0.3);border:1px solid rgba(22,199,199,0.4);}
+.nav-logo-icon svg{width:22px;height:22px;fill:none;stroke:#16C7C7;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span{font-size:10px;font-family:var(--mono);font-weight:500;color:rgba(22,199,199,0.85);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links li button{background:none;border:none;color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:8px 13px;border-radius:7px;transition:all .22s var(--ease);cursor:pointer;font-family:var(--mono);letter-spacing:.8px;text-transform:uppercase;position:relative;white-space:nowrap;}
+.nav-links li button:hover{color:#fff;background:rgba(22,199,199,0.12);}
+.nav-links li button.active{color:#16C7C7;background:rgba(22,199,199,0.1);}
+.nav-links li button.active::after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:14px;height:2px;background:var(--cyan);border-radius:2px;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-demo-nav{background:linear-gradient(135deg,var(--cyan),var(--electric));color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all .22s;font-family:var(--mono);letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;box-shadow:0 2px 10px rgba(22,199,199,0.4);}
+.btn-demo-nav:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(22,199,199,0.6);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0;}
+.hamburger span{width:22px;height:2px;background:#16C7C7;border-radius:2px;transition:.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-nav{display:none;position:fixed;top:var(--nav-h);left:0;width:100%;background:var(--navy-deep);padding:12px 20px 20px;flex-direction:column;gap:2px;z-index:999;border-bottom:1px solid rgba(22,199,199,0.2);animation:slideDown .25s var(--ease-out);}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.mobile-nav.open{display:flex;}
+.mobile-nav button{background:none;border:none;color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:13px 12px;border-bottom:1px solid rgba(22,199,199,.1);cursor:pointer;font-family:var(--mono);text-align:left;text-transform:uppercase;letter-spacing:1px;transition:color .2s,background .2s;border-radius:6px;}
+.mobile-nav button:hover{color:#16C7C7;background:rgba(22,199,199,.08);}
+.mobile-nav .mob-cta{margin-top:8px;background:linear-gradient(135deg,var(--cyan),var(--electric));color:#fff;border:none;padding:13px;border-radius:8px;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:var(--mono);}
+
+/* PAGES */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+.page.active{display:block;animation:pgIn .35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* UTILITY */
+.label-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:14px;}
+.label-tag::before{content:'';width:20px;height:1px;background:var(--electric);}
+.label-tag-w{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(22,199,199,.9);margin-bottom:14px;}
+.label-tag-w::before{content:'';width:20px;height:1px;background:rgba(22,199,199,.6);}
+.section-h2{font-family:var(--display);font-size:clamp(26px,3.5vw,50px);font-weight:800;line-height:1.1;letter-spacing:-.8px;margin-bottom:10px;}
+.h2-dark{color:var(--text-dark);}
+.h2-white{color:#fff;}
+.divider{width:56px;height:3px;margin:16px 0 28px;border-radius:2px;}
+.div-cyan{background:linear-gradient(90deg,var(--cyan),transparent);}
+.div-white{background:linear-gradient(90deg,rgba(22,199,199,.8),transparent);}
+.para-d{color:var(--text-mid);line-height:1.85;font-size:16px;}
+.para-w{color:rgba(255,255,255,.85);line-height:1.85;font-size:16px;}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);}
+.btn-p{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--electric),var(--navy-mid));color:#fff;padding:13px 28px;border-radius:8px;font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;transition:all .25s;font-family:var(--mono);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(47,111,237,.4);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(22,199,199,.5);}
+.btn-s{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--cyan);color:var(--navy);padding:12px 28px;border-radius:8px;font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;transition:all .25s;font-family:var(--mono);background:none;cursor:pointer;}
+.btn-s:hover{background:rgba(22,199,199,.1);}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--mono);}
+.badge-c{background:rgba(22,199,199,.1);color:var(--electric-dim);border:1px solid rgba(22,199,199,.28);}
+.badge-g{background:rgba(31,190,130,.1);color:#16915F;border:1px solid rgba(31,190,130,.25);}
+.bdot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#E2EEFF 0%,#CDE2FF 40%,#B2D2FF 100%);padding:clamp(60px,10vw,100px) 0 clamp(50px,8vw,80px);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(22,199,199,.12) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(47,111,237,.08) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,199,199,.12);border:1px solid rgba(22,199,199,.35);border-radius:30px;padding:6px 16px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--navy);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;}
+.hero-bdot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+h1{font-family:var(--display);font-size:clamp(32px,5vw,60px);font-weight:800;line-height:1.06;letter-spacing:-1.5px;color:var(--text-dark);margin-bottom:6px;}
+h1 .cyan{color:var(--electric);}
+.hero-rule{width:48px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--electric));border-radius:2px;margin:20px 0;}
+.hero-body{font-size:16px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;max-width:540px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* DASHBOARD CARD */
+.dash-card{background:#fff;border-radius:18px;border:1px solid rgba(22,199,199,.25);padding:24px;box-shadow:0 8px 40px rgba(10,22,40,.15);}
+.dash-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.dash-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.dash-title{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);}
+.live-wrap{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--cyan-dim);letter-spacing:1.5px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 1.5s infinite;}
+.score-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(10,22,40,.06);}
+.s-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;flex-shrink:0;}
+.si-c{background:rgba(22,199,199,.12);color:var(--electric-dim);}
+.si-g{background:rgba(31,190,130,.1);color:#16915F;}
+.si-e{background:rgba(47,111,237,.1);color:var(--navy);}
+.score-lbl{flex:1;font-size:12px;color:var(--text-muted);}
+.score-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px;background:linear-gradient(135deg,rgba(22,199,199,.07),rgba(47,111,237,.1));border-radius:12px;border:1px solid rgba(22,199,199,.18);}
+.sb-num{font-family:var(--display);font-size:46px;font-weight:800;color:var(--electric);line-height:1;}
+.sb-info .lbl{font-size:13px;font-weight:700;color:var(--text-dark);}
+.sb-info .sub{font-size:11px;color:var(--text-muted);margin-top:3px;font-family:var(--mono);}
+
+/* DARK SECTION */
+.sec-dark{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);padding:clamp(60px,8vw,96px) 0;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;}
+.stat-card{background:rgba(22,199,199,.06);border:1px solid rgba(22,199,199,.2);border-radius:16px;padding:clamp(20px,3vw,30px);text-align:center;transition:transform .25s,border-color .25s;}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(22,199,199,.5);}
+.stat-num{font-family:var(--display);font-size:clamp(30px,4vw,46px);font-weight:800;color:#16C7C7;margin-bottom:10px;}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;}
+
+/* PLATFORM CARDS */
+.sec-light{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.sec-alt{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.plat-card{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;box-shadow:0 2px 12px rgba(10,22,40,.06);}
+.plat-card:hover{border-color:rgba(22,199,199,.45);box-shadow:0 12px 40px rgba(22,199,199,.12);transform:translateY(-3px);}
+.plat-img{width:100%;height:180px;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--navy-mid));}
+.plat-img img{width:100%;height:100%;object-fit:cover;opacity:.88;}
+.plat-inner{padding:22px;}
+.el-badge{display:inline-block;background:rgba(22,199,199,.1);color:var(--electric-dim);border-radius:6px;padding:3px 10px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;border:1px solid rgba(22,199,199,.22);}
+.plat-card h3{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+.plat-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+.more-txt{display:none;font-size:13px;color:var(--text-muted);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(10,22,40,.08);}
+.plat-card.open .more-txt{display:block;}
+.expand-btn{margin-top:16px;background:none;border:1px solid rgba(10,22,40,.2);color:var(--electric-dim);padding:7px 18px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);letter-spacing:.8px;text-transform:uppercase;transition:all .2s;}
+.expand-btn:hover{background:rgba(22,199,199,.08);border-color:var(--cyan);}
+
+/* WHY CARDS */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;}
+.why-card{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:16px;padding:clamp(20px,3vw,30px);transition:border-color .25s,box-shadow .25s;}
+.why-card:hover{border-color:rgba(22,199,199,.4);box-shadow:0 8px 28px rgba(22,199,199,.1);}
+.why-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(22,199,199,.12),rgba(47,111,237,.1));display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;color:var(--cyan-dim);border:1px solid rgba(22,199,199,.25);}
+.why-card h4{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:10px;}
+.why-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;}
+.chart-card{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(10,22,40,.06);}
+.chart-card h4{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.chart-card p{font-size:12px;color:var(--text-muted);margin-bottom:20px;font-family:var(--mono);}
+.chart-wrap{height:260px;position:relative;}
+
+/* PROCESS */
+.process-step{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center;margin-bottom:clamp(56px,8vw,96px);}
+.process-step:last-child{margin-bottom:0;}
+.step-num{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:12px;}
+.step-h3{font-family:var(--display);font-size:clamp(22px,2.5vw,30px);font-weight:800;color:var(--text-dark);margin-bottom:16px;line-height:1.2;}
+.step-p{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:18px;}
+.step-img{width:100%;aspect-ratio:16/10;border-radius:16px;border:1px solid rgba(22,199,199,.22);overflow:hidden;box-shadow:0 8px 32px rgba(10,22,40,.12);}
+.step-img img{width:100%;height:100%;object-fit:cover;}
+
+/* FAQ */
+.faq-wrap{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+.faq-item{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:14px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;gap:16px;}
+.faq-q h4{font-family:var(--display);font-size:15px;font-weight:600;color:var(--text-dark);}
+.faq-icon{font-size:22px;font-weight:300;color:var(--electric);flex-shrink:0;transition:transform .3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-body{display:none;padding:0 22px 18px;font-size:14px;color:var(--text-muted);line-height:1.8;border-top:1px solid rgba(10,22,40,.06);}
+.faq-item.open .faq-body{display:block;}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+.price-card{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:clamp(22px,3vw,36px);position:relative;transition:border-color .25s,box-shadow .25s,transform .25s;box-shadow:0 4px 16px rgba(10,22,40,.06);}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(22,199,199,.15);}
+.price-card.featured{border:2px solid var(--cyan);box-shadow:0 8px 40px rgba(22,199,199,.22);transform:scale(1.03);}
+.price-card.featured:hover{transform:scale(1.03) translateY(-4px);}
+.feat-lbl{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--cyan),var(--electric));color:#fff;padding:4px 18px;border-radius:20px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;}
+.price-tier{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:8px;}
+.price-title{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text-dark);margin-bottom:12px;}
+.price-amount{font-family:var(--display);font-size:clamp(32px,4vw,46px);font-weight:800;color:var(--navy);line-height:1;}
+.price-amount span{font-size:16px;font-weight:500;color:var(--text-muted);}
+.price-desc{font-size:13px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6;}
+.price-feat{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.price-feat li{font-size:13px;color:var(--text-mid);display:flex;align-items:flex-start;gap:8px;}
+.price-feat li::before{content:'✓';color:var(--electric);font-weight:700;flex-shrink:0;}
+
+/* CONTACT */
+.contact-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);padding:clamp(60px,8vw,96px) 0;}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:44px;}
+.contact-form{background:#fff;border-radius:18px;padding:clamp(24px,4vw,40px);box-shadow:0 8px 40px rgba(0,0,0,.15);}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--text-dark);margin-bottom:8px;font-family:var(--mono);letter-spacing:.5px;text-transform:uppercase;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid rgba(10,22,40,.15);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text-dark);background:#fff;transition:border-color .2s,box-shadow .2s;outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(22,199,199,.1);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.contact-info h3{font-family:var(--display);font-size:22px;font-weight:700;color:#fff;margin-bottom:16px;}
+.contact-info .sub{font-size:15px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:28px;}
+.c-detail{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.c-detail .ic{width:44px;height:44px;background:rgba(22,199,199,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;font-size:18px;}
+.c-detail strong{display:block;font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
+.c-detail span{font-size:13px;color:rgba(255,255,255,.65);}
+
+/* COMP TABLE */
+.comp-wrap{overflow-x:auto;margin-top:32px;border-radius:14px;border:1px solid rgba(10,22,40,.1);}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;}
+.comp-table thead th{background:linear-gradient(135deg,var(--navy),var(--navy-deep));color:#fff;padding:14px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;text-align:left;white-space:nowrap;}
+.comp-table thead th.hi{background:linear-gradient(135deg,var(--cyan),var(--electric));color:#fff;}
+.comp-table tbody tr:nth-child(even){background:var(--bg-light);}
+.comp-table tbody td{padding:12px 16px;color:var(--text-muted);border-bottom:1px solid rgba(10,22,40,.05);}
+.comp-table tbody td:first-child{font-weight:600;color:var(--text-dark);}
+.comp-table td.hi{background:rgba(22,199,199,.05);}
+.comp-table td.yes{color:#16915F;font-weight:700;}
+.comp-table td.no{color:var(--text-light);}
+
+/* ABOUT HERO */
+.about-hero{background:linear-gradient(140deg,#CDE2FF 0%,#B2D2FF 60%,#96C0FF 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);position:relative;overflow:hidden;}
+
+/* FOOTER */
+footer{background:var(--footer-bg);border-top:1px solid rgba(22,199,199,.12);padding:clamp(50px,7vw,80px) 0 24px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.f-brand{font-family:var(--display);font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;}
+.f-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.9;max-width:320px;}
+.f-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.f-badge{background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.18);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:9px;color:rgba(22,199,199,.85);letter-spacing:.5px;}
+.f-col-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(22,199,199,.7);margin-bottom:18px;}
+.f-col{display:flex;flex-direction:column;gap:10px;}
+.f-col a{font-size:13px;color:rgba(255,255,255,.55);cursor:pointer;transition:color .2s;text-decoration:none;}
+.f-col a:hover{color:#16C7C7;}
+.footer-bar{border-top:1px solid rgba(22,199,199,.1);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bar p{font-size:12px;color:rgba(255,255,255,.35);font-family:var(--mono);}
+.footer-bar p span{color:rgba(22,199,199,.6);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:11px;color:rgba(255,255,255,.35);cursor:pointer;text-decoration:none;font-family:var(--mono);transition:color .2s;}
+.footer-links a:hover{color:#16C7C7;}
+
+/* ADDONS */
+.addons-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.addon-card{background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:16px;padding:28px;display:flex;gap:20px;}
+.addon-icon{width:52px;height:52px;border-radius:12px;background:rgba(22,199,199,.1);display:flex;align-items:center;justify-content:center;color:var(--cyan-dim);font-size:22px;flex-shrink:0;border:1px solid rgba(22,199,199,.22);}
+.addon-card h4{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;}
+.addon-card p{font-size:13px;color:var(--text-muted);line-height:1.7;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none;}.hamburger{display:flex;}
+  .hero-inner{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .plat-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}.price-card.featured{transform:scale(1);}
+  .process-step{grid-template-columns:1fr;gap:28px;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .addons-grid{grid-template-columns:1fr;}
+  .tw{grid-template-columns:1fr!important;}
+}
+@media(max-width:600px){
+  .why-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-logo" onclick="showPage('home')">
+  <div class="nav-logo-text">
+    ComplyPilot AI Solutions
+    <span>Navigate Compliance · Drive Confidence · 2026</span>
+  </div>
+</a>
+  <ul class="nav-links">
+    <li><button id="nav-home" onclick="showPage('home')" class="active">Home</button></li>
+    <li><button id="nav-about" onclick="showPage('about')">About</button></li>
+    <li><button id="nav-platform" onclick="showPage('platform')">Platform</button></li>
+    <li><button id="nav-market" onclick="showPage('market')">Market</button></li>
+    <li><button id="nav-process" onclick="showPage('process')">Process</button></li>
+    <li><button id="nav-faq" onclick="showPage('faq')">FAQ</button></li>
+    <li><button id="nav-pricing" onclick="showPage('pricing')">Pricing</button></li>
+    <li><button id="nav-contact" onclick="showPage('contact')">Contact</button></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-demo-nav" onclick="showPage('contact')">Book Demo</button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button onclick="showPage('home');closeMob()">Home</button>
+  <button onclick="showPage('about');closeMob()">About</button>
+  <button onclick="showPage('platform');closeMob()">Platform</button>
+  <button onclick="showPage('market');closeMob()">Market</button>
+  <button onclick="showPage('process');closeMob()">Process</button>
+  <button onclick="showPage('faq');closeMob()">FAQ</button>
+  <button onclick="showPage('pricing');closeMob()">Pricing</button>
+  <button onclick="showPage('contact');closeMob()">Contact</button>
+  <button class="mob-cta" onclick="showPage('contact');closeMob()">Book Demo</button>
+</div>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div class="page active" id="page-home">
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="hero-bdot"></span>UK Food Safety · Compliance Intelligence · 2026</div>
+      <h1>Navigate Compliance.<br><span class="cyan">Drive Confidence.</span></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-body">ComplyPilot AI Solutions is the UK's AI-driven Operational Intelligence &amp; Food Safety Compliance Platform  converting kitchen complexity into proprietary Compliance DNA, transforming passive paper-based recording into active, real-time "Rules Compilation" at the point of food preparation.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="showPage('contact')">Book a Platform Demo</button>
+        <button class="btn-s" onclick="showPage('platform')">Explore Platform</button>
+      </div>
+    </div>
+    <div>
+      <div class="dash-card">
+        <div class="dash-top">
+          <div><div class="dash-lbl">ComplyPilot AI · Live Engine</div><div class="dash-title">Kitchen Compliance Command Centre</div></div>
+          <div class="live-wrap"><span class="live-dot"></span>LIVE</div>
+        </div>
+        <div class="score-row"><div class="s-icon si-c">CFE</div><span class="score-lbl">Allergen &amp; Hazard Forensics</span><span class="score-val">↓ 18% Risk</span></div>
+        <div class="score-row"><div class="s-icon si-g">CCP</div><span class="score-lbl">Critical Control Point Logging</span><span class="score-val">↑ 28% Accuracy</span></div>
+        <div class="score-row"><div class="s-icon si-e">OLM</div><span class="score-lbl">Outcome-Learning Memory Synced</span><span class="score-val">90%+ Compliant</span></div>
+        <div class="score-row"><div class="s-icon si-c">DNA</div><span class="score-lbl">Compliance Equity Captured</span><span class="score-val">14-Day Onboarding</span></div>
+        <div class="score-big">
+          <div class="sb-num">90<span style="font-size:22px">%+</span></div>
+          <div class="sb-info"><div class="lbl">Compliance Accuracy Improvement</div><div class="sub">Real-Time Rules Compiler · ↑35% vs Manual Logs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">The UK Compliance-Execution Gap</div>
+    <h2 class="section-h2 h2-white">UK Kitchens Are Losing Millions to Manual Logs &amp; Allergen Cross-Contamination.</h2>
+    <div class="divider div-white"></div>
+    <p class="para-w" style="max-width:760px">The UK foodservice sector has surged to a £14.3 billion market, yet only 29.7% of operators have integrated structured digital food safety systems. Natasha's Law and the forthcoming Owen's Law demand absolute allergen transparency  and ComplyPilot AI is the active compliance-prevention layer that closes this critical gap.</p>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">70%+</div><div class="stat-lbl">Reduction in manual compliance effort reported across ComplyPilot AI pilot kitchen sites</div></div>
+      <div class="stat-card"><div class="stat-num">60%+</div><div class="stat-lbl">Faster risk identification through real-time Contamination &amp; Hazard Forensics</div></div>
+      <div class="stat-card"><div class="stat-num">90%+</div><div class="stat-lbl">Compliance accuracy achieved via the Compliance-Execution Fingerprinting engine</div></div>
+      <div class="stat-card"><div class="stat-num">£150M+</div><div class="stat-lbl">Annual UK losses from allergen disputes, waste &amp; compliance fines that ComplyPilot AI helps prevent</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-light">
+  <div class="container">
+    <div class="label-tag">Core Compliance Modules</div>
+    <h2 class="section-h2 h2-dark">Six Modules. One Complete Compliance Management Platform.</h2>
+    <div class="divider div-cyan"></div>
+    <p class="para-d" style="max-width:760px;margin-bottom:44px">ComplyPilot AI combines compliance automation, control testing, document management, audit readiness, vendor management, and data security into one unified SaaS platform built specifically for UK hospitality SMEs, dark kitchens, and multi-site catering groups.</p>
+    <div class="plat-grid">
+      <div class="plat-card">
+        <div class="plat-img"><img src="https://images.unsplash.com/photo-1556909114-44e3e70034e2?auto=format&fit=crop&w=800&q=80" alt="Compliance Logic Fingerprinting"></div>
+        <div class="plat-inner"><div class="el-badge">Module 01</div><h3>Compliance-Execution Fingerprinting</h3><p>Captures, benchmarks, and clones the hidden logic of successful allergen and safety management before it is lost to high staff turnover  turning expert chef behaviour into reusable workflow standards.</p><div class="more-txt">Unlike static checklists, this engine identifies and "fingerprints" the patterns of successful kitchen compliance  zero cross-contamination records, prompt corrective actions, precise allergen segregation  allowing these expert-level behaviours to be benchmarked and cloned across an entire team or multi-site estate, instantly bringing seasonal and junior staff up to expert standard.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-img"><img src="https://images.unsplash.com/photo-1581349485608-9469926a8e5e?auto=format&fit=crop&w=800&q=80" alt="Contamination Hazard Forensics Engine"></div>
+        <div class="plat-inner"><div class="el-badge">Module 02</div><h3>Contamination &amp; Hazard Forensics Engine (CFE)</h3><p>Automatically diagnoses the root causes of compliance quiet failures  pencil-whipped paper logs, incomplete cooling records, unchecked storage zones  by analysing the delta between food-safety law and executed kitchen actions.</p><div class="more-txt">The CFE identifies exactly where a food safety or allergen control chain breaks down, whether due to supplier labelling ambiguity, kitchen layout design flaws, or staff training gaps, and provides actionable corrective optimisations before a critical failure escalates into an EHO rating downgrade or legal liability.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-img"><img src="ni1.jpg" alt="Outcome Learning Memory"></div>
+        <div class="plat-inner"><div class="el-badge">Module 03</div><h3>Outcome-Learning Memory (OLM)</h3><p>Generates comprehensive reports linking specific on-the-floor compliance behaviours to Hygiene Ratings (FHRS) and operational margins, giving independent operators multi-unit compliance intelligence.</p><div class="more-txt">EHO audit feedback, supplier ingredient adjustments, and local regulatory changes are transformed into "workflow intelligence" using proprietary algorithms that map successful audits and perfect FHRS scores back to the original kitchen staff preparation routines  protecting institutional safety memory permanently.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-img"><img src="https://images.unsplash.com/photo-1532635241-17e820acc59f?auto=format&fit=crop&w=800&q=80" alt="Intent to Workflow Auto Synthesis"></div>
+        <div class="plat-inner"><div class="el-badge">Module 04</div><h3>Intent-to-Workflow Auto-Synthesis</h3><p>Maps unstructured kitchen requests onto real-time regulatory and dietary conditions, automatically deconstructing sudden ingredient substitutions into a structured, multi-step preparation workflow.</p><div class="more-txt">When suppliers swap ingredients or a complex high-risk allergen profile appears, ComplyPilot AI removes the need for staff to guess allergen content or manually rewrite kitchen cards  directly mitigating risk under Natasha's Law without requiring manual managerial intervention.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-img"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="Community Compliance Network"></div>
+        <div class="plat-inner"><div class="el-badge">Module 05</div><h3>Community Compliance Network (CCN)</h3><p>Federated learning architecture enabling anonymised "Compliance DNA" sharing across UK hospitality operators  so every SME benefits from regional inspection and allergen trend intelligence.</p><div class="more-txt">Insights learned from high-purity QSR chains in Birmingham can be immediately deployed to optimise the safety parameters of an independent bistro in London, generating a collective intelligence ecosystem that new market entrants would have to build entirely from scratch.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-img"><img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" alt="Hardware Agnostic Integration"></div>
+        <div class="plat-inner"><div class="el-badge">Module 06</div><h3>Hardware-Agnostic Integration Suite</h3><p>Plug-and-play API platform built to sit above any Bluetooth temperature probe, IoT sensor, EPOS/KDS system, or label printer  minimising onboarding friction without vendor lock-in.</p><div class="more-txt">ComplyPilot AI overlays your existing kitchen and POS tools  Square, Toast, Lightspeed  ensuring restaurants are never locked into a single physical equipment provider as technologies evolve, and reducing onboarding time from days to hours once integrations are standardised.</div><button class="expand-btn" onclick="toggleCard(this)">Learn More</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="container">
+    <div class="label-tag">Why ComplyPilot AI Solutions</div>
+    <h2 class="section-h2 h2-dark">Built Exclusively for UK Hospitality SMEs &amp; Dark Kitchens.</h2>
+    <div class="divider div-cyan"></div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon"><i class="fas fa-shield-virus"></i></div><h4>Predictive, Not Reactive</h4><p>Our models predict compliance risk at specific prep areas based on shift complexity, alerting managers before EHO audit thresholds are breached  not after a temperature breach occurs.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-flag"></i></div><h4>UK-Specific Regulatory Logic</h4><p>Models trained natively on the post-Natasha's Law regulatory landscape, FSA Safer Food Better Business standards, and UK-specific supplier and EHO compliance data.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-user-shield"></i></div><h4>Compliance Knowledge Equity</h4><p>Converts transient kitchen staff hygiene skills into permanent, institutional "workflow equity"  protecting independent operators from the high costs of talent attrition.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-pound-sign"></i></div><h4>SME-Optimised Pricing</h4><p>Tiered SaaS pricing from just £50/month gives UK SMEs the same compliance intelligence previously reserved for enterprise-level catering giants.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-project-diagram"></i></div><h4>Zero Capex, BYOD-First</h4><p>Mobile-first, Bring-Your-Own-Device framework eliminates steep hardware setup costs  enterprise-grade automated checklists made accessible to single-unit operators.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-leaf"></i></div><h4>ESG &amp; FSA Aligned</h4><p>Audit-ready FSA, ICO and UK GDPR compliant reporting is generated automatically  reducing food waste, spoilage, and the carbon overhead of manual verification cycles.</p></div>
+    </div>
+  </div>
+</section>
+</div><!-- /home -->
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<div class="page" id="page-about">
+<section class="about-hero">
+  <div class="container">
+    <div class="label-tag">About ComplyPilot AI Solutions</div>
+    <h2 class="section-h2 h2-dark">Converting Kitchen Complexity into Proprietary Compliance DNA.</h2>
+    <div class="divider div-cyan"></div>
+    <p class="para-d" style="max-width:800px">ComplyPilot AI is an AI-driven, end-to-end operational intelligence and food safety platform tailored specifically for the UK hospitality and foodservice (HaFS) sector. We solve an urgent operational problem  the "Compliance-Execution Gap"  where mandates like Natasha's Law and Owen's Law demand absolute allergen transparency, yet most operators remain stuck in fragmented, paper-based compliance cycles.</p>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="label-tag">Vision &amp; Mission</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px" class="tw">
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:32px">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:12px">Mission</div>
+        <h3 style="font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:16px">Zero-Risk Food Safety &amp; Allergen Transparency</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.8">To enable UK hospitality SMEs to achieve zero-risk food safety and allergen transparency by leveraging ComplyPilot to maximise operational precision, eliminate cross-contamination incidents, and protect proprietary institutional safety memory.</p>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:32px">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:12px">Vision</div>
+        <h3 style="font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:16px">The Global Standard for Digital Food Safety</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.8">We aspire to be the global standard for digital food safety compliance, fostering a future in which kitchen teams operate with total "Kitchen Sovereignty"  ensuring consistent, data-driven safety reliability and audit-ready excellence at every point of service.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec-alt">
+  <div class="container">
+    <div class="label-tag">Core Values</div>
+    <h2 class="section-h2 h2-dark">What Drives ComplyPilot AI Solutions</h2>
+    <div class="divider div-cyan"></div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon"><i class="fas fa-bolt"></i></div><h4>Innovation</h4><p>Continuous refinement of our behavioural models to stay ahead of evolving FSA mandates and digital enforcement standards.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-bullseye"></i></div><h4>Accuracy</h4><p>A relentless commitment to the elimination of allergen cross-contamination and the maintenance of forensic audit integrity.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-shield-alt"></i></div><h4>Safety-First</h4><p>Empowering kitchens to transform safety compliance from an operational burden into a verified driver of consumer trust.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-tachometer-alt"></i></div><h4>Efficiency</h4><p>Making complex regulatory rules accessible through low-friction, station-specific digital workflows that respect the speed of service.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-balance-scale"></i></div><h4>Accountability</h4><p>Equipping operators with the data-driven oversight needed to scale kitchen expertise without increasing compliance-proportional liability.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-globe"></i></div><h4>ESG Impact</h4><p>Reducing food waste by 20–30% per site through proactive temperature monitoring and optimised ingredient shelf-life management.</p></div>
+    </div>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="label-tag">Founder Fit</div>
+    <h2 class="section-h2 h2-dark">Meet the Founder</h2>
+    <div class="divider div-cyan"></div>
+    <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:clamp(20px,3vw,36px)">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--electric),var(--navy));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:24px;font-weight:800;color:#fff;margin-bottom:16px">ND</div>
+      <h3 style="font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:4px">Nishant Dawar</h3>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:16px">Founder &amp; CEO · ComplyPilot AI Solutions</div>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.8;max-width:800px">Nishant Dawar possesses a unique multidisciplinary background to establish and grow ComplyPilot AI in the UK, drawing on deep, first-hand culinary kitchen operations, advanced software engineering and QA automation expertise, and a solid grasp of logistics and delivery workflows. As a chef at 12th Street Burger, he directly observed the "Compliance-Execution Gap"  dedicated kitchen teams struggling with Natasha's Law allergen rules and rigorous temperature tracking due to a complete lack of real-time, station-specific guidance. His Bachelor of Engineering in Computer Science (Chitkara University), MSc in International Business (University of Luton), and leadership roles in automated QA frameworks at TBO.com and Airtel Digital give him the unique capability to bridge abstract regulatory mandates and real-time automated execution on a commercial kitchen floor.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">MSc International Business (Luton)</span>
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">BEng Computer Science</span>
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">Professional Chef</span>
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">QA Automation Lead</span>
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">Logistics &amp; Courier Ops</span>
+        <span style="background:rgba(22,199,199,.08);border:1px solid rgba(22,199,199,.22);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--electric-dim)">CI/CD &amp; Forensic Logic</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px" class="tw">
+      <div style="background:linear-gradient(135deg,var(--navy),var(--navy-deep));border-radius:18px;padding:32px;color:#fff">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(22,199,199,.85);margin-bottom:12px">Exceptional Founder-Market Fit</div>
+        <h3 style="font-family:var(--display);font-size:19px;font-weight:700;margin-bottom:14px">Built by Someone Who Has Lived the Problem</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.8);line-height:1.8">Nishant has worked the prep line as a chef and the road as a courier driver  giving him direct exposure to the operational realities of high-intensity, high-throughput kitchen workflows and the time-critical logistics behind delivery-first food service. His software QA background ensures the platform's Contamination &amp; Hazard Forensics Engine is robust enough to identify systematic compliance failures before they escalate.</p>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:32px">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:14px">Validated Pilot Achievements</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid)"><span style="color:var(--cyan-dim);font-size:18px">✓</span> 81% of 150 UK hospitality managers "highly impressed" by hazard forensics prototype accuracy</div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid)"><span style="color:var(--cyan-dim);font-size:18px">✓</span> 28% average increase in food safety log compliance across 5 UK pilot kitchens</div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid)"><span style="color:var(--cyan-dim);font-size:18px">✓</span> 18% reduction in allergen cross-contamination indicators across 1,200 tested prep cycles</div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid)"><span style="color:var(--cyan-dim);font-size:18px">✓</span> New kitchen staff reach full compliance proficiency in 14 days vs historical 45-day average</div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid)"><span style="color:var(--cyan-dim);font-size:18px">✓</span> 91.2% of 182 respondents rate workflow cloning as "valuable" or "extremely valuable"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /about -->
+
+<!-- ═══════════════ PLATFORM ═══════════════ -->
+<div class="page" id="page-platform">
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">The Full Platform</div>
+    <h2 class="section-h2 h2-white">The Real-Time Rules Compiler for Commercial Kitchens</h2>
+    <div class="divider div-white"></div>
+    <p class="para-w" style="max-width:760px">A unified, closed-loop operational platform that converts fragmented regulatory checklists into measurable, audit-ready operational assets. ComplyPilot AI establishes a continuous lifecycle that links regulatory intent, kitchen-floor execution, and food safety outcomes  transforming "paperwork guesswork" into "guaranteed allergen and hygiene compliance."</p>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="label-tag">Proprietary Innovation</div>
+    <h2 class="section-h2 h2-dark">What Makes ComplyPilot AI Novel</h2>
+    <div class="divider div-cyan"></div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon"><i class="fas fa-lock"></i></div><h4>Closed-Loop Compliance Logic Lifecycle</h4><p>A first-of-its-kind framework bridging raw kitchen-floor food preparation and regulatory safety assurance, improving with every critical control point and shift interaction.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-brain"></i></div><h4>Unification of Intent, Execution &amp; Outcome</h4><p>Merges Natasha's Law, HACCP standards, and emerging Owen's Law guidelines with automated kitchen-level workflows and real-world outcomes into one "Behavioural Memory" graph.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-sitemap"></i></div><h4>Compliance Logic Fingerprinting</h4><p>Uses behavioural and operational data to identify and "fingerprint" successful compliance patterns, allowing benchmarking and cloning of expert-level safety behaviours across teams.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-cubes"></i></div><h4>Hardware-Agnostic SaaS Architecture</h4><p>Sits above any digital thermometer, IoT sensor, EPOS/KDS system, or label printer  without vendor lock-in or infrastructure replacement, plug-and-play from day one.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-network-wired"></i></div><h4>Community Compliance Network</h4><p>Federated learning architecture enables anonymised "Compliance DNA" sharing across UK restaurants  each SME leverages regional benchmarks without exposing private data.</p></div>
+      <div class="why-card"><div class="why-icon"><i class="fas fa-balance-scale"></i></div><h4>Integrated Compliance Sovereignty</h4><p>Unlike passive digital logs, ComplyPilot AI lets businesses own their "Operational Safety Logic" as a proprietary asset that remains within the company after staff turnover.</p></div>
+    </div>
+  </div>
+</section>
+<section class="sec-alt">
+  <div class="container">
+    <div class="label-tag">Competitor Analysis</div>
+    <h2 class="section-h2 h2-dark">ComplyPilot AI vs The Market</h2>
+    <div class="divider div-cyan"></div>
+    <p class="para-d" style="max-width:700px;margin-bottom:0">No other solution unifies predictive safety forecasting, behavioural compliance cloning, hazard forensics, and outcome-linked kitchen memory into one modular, hardware-agnostic SaaS platform tailored to the UK SME food service segment.</p>
+    <div class="comp-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature / Capability</th>
+            <th>Hardware Compliance (Monika)</th>
+            <th>Generic Audit Apps (SafetyCulture)</th>
+            <th>Advisory Binders (FSA SFBB)</th>
+            <th class="hi">ComplyPilot AI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Closed-Loop Point-of-Prep Guidance</td><td class="no">None  passive hardware logs</td><td class="no">None  static checklists</td><td class="no">None  post-hoc policy</td><td class="yes hi">✓ Real-time, station-specific</td></tr>
+          <tr><td>Predictive "Pencil-Whipping" Forensics</td><td class="no">No</td><td class="no">No</td><td class="no">No  highly vulnerable</td><td class="yes hi">✓ CFE Engine</td></tr>
+          <tr><td>Natasha's &amp; Owen's Law 2026 Focus</td><td class="no">Low  generic temp logs</td><td class="no">Low  general checklists</td><td>Medium  static allergen cards</td><td class="yes hi">✓ Dynamic ingredient-to-allergen link</td></tr>
+          <tr><td>Compliance Logic Fingerprinting</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes hi">✓ Behavioural cloning of chef standards</td></tr>
+          <tr><td>Outcome-Learning Memory (OLM)</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes hi">✓ Structural compliance graph</td></tr>
+          <tr><td>Federated Community Network</td><td class="no">No  siloed enterprise data</td><td class="no">No</td><td class="no">No</td><td class="yes hi">✓ Anonymized regional audit trends</td></tr>
+          <tr><td>Target Customer Segment</td><td>Enterprise Food Networks &amp; Hotels</td><td>General Industry Ops</td><td>Small Independent Kitchens</td><td class="hi" style="font-weight:700;color:var(--electric-dim)">UK SME Foodservice &amp; Dark Kitchens</td></tr>
+          <tr><td>Cost Structure</td><td>High Capex + Service Fees</td><td>Standard SaaS Subscription</td><td>Free (FSA) / High Manual Labour</td><td class="hi" style="font-weight:700;color:var(--electric-dim)">Tiered SaaS (from £50/mo)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</div><!-- /platform -->
+
+<!-- ═══════════════ MARKET ═══════════════ -->
+<div class="page" id="page-market">
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">Market Research &amp; Validation</div>
+    <h2 class="section-h2 h2-white">A $22.4B Global Market  With a Critical UK SME Gap at the Kitchen Floor.</h2>
+    <div class="divider div-white"></div>
+    <p class="para-w" style="max-width:760px">The global food safety compliance and kitchen management software market was valued at approximately USD 22.4 billion in 2023, forecast to reach USD 35.8 billion by 2030 at a 6.9% CAGR. The UK HaFS sector contributes over £140 billion in GVA across 115,000+ outlets. Our market validation survey of 182 UK hospitality professionals confirms overwhelming demand for active, automated compliance intelligence.</p>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="label-tag">Market Size &amp; Opportunity</div>
+    <h2 class="section-h2 h2-dark">£140B UK HaFS Sector GVA. 115,000+ Outlets. Millions Lost to Compliance Failures Daily.</h2>
+    <div class="divider div-cyan"></div>
+    <div class="charts-grid">
+      <div class="chart-card"><h4>Top UK Compliance Friction Points</h4><p>% share of friction causes  UK survey 182 respondents</p><div class="chart-wrap"><canvas id="chartSector"></canvas></div></div>
+      <div class="chart-card"><h4>Market Validation  UK Survey (182 Respondents)</h4><p>% of UK operators rating ComplyPilot AI features as valuable</p><div class="chart-wrap"><canvas id="chartRootCause"></canvas></div></div>
+      <div class="chart-card"><h4>ComplyPilot AI vs Competitors  Capability Radar</h4><p>Key compliance platform capability comparison across providers</p><div class="chart-wrap"><canvas id="chartRadar"></canvas></div></div>
+      <div class="chart-card"><h4>Global Compliance Tech Market Growth</h4><p>Market size USD Billions, 2023–2030</p><div class="chart-wrap"><canvas id="chartGrowth"></canvas></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px" class="tw" style="grid-template-columns:repeat(3,1fr)">
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:16px;padding:28px;text-align:center"><div style="font-family:var(--display);font-size:40px;font-weight:800;color:var(--electric);margin-bottom:10px">91.2%</div><p style="font-size:13px;color:var(--text-muted);line-height:1.6">Of 182 UK respondents describe saving validated kitchen safety routines as "extremely valuable"</p></div>
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:16px;padding:28px;text-align:center"><div style="font-family:var(--display);font-size:40px;font-weight:800;color:var(--electric);margin-bottom:10px">89.9%</div><p style="font-size:13px;color:var(--text-muted);line-height:1.6">Would adopt a system that automatically improves staff sorting and prep choice architecture</p></div>
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:16px;padding:28px;text-align:center"><div style="font-family:var(--display);font-size:40px;font-weight:800;color:var(--electric);margin-bottom:10px">87.3%</div><p style="font-size:13px;color:var(--text-muted);line-height:1.6">Of respondents said they would be interested in joining a pilot or beta testing programme</p></div>
+    </div>
+  </div>
+</section>
+<section class="sec-alt">
+  <div class="container">
+    <div class="label-tag">Regional Go-To-Market</div>
+    <h2 class="section-h2 h2-dark">Where ComplyPilot AI Launches &amp; Scales</h2>
+    <div class="divider div-cyan"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px" class="tw">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border-left:4px solid var(--cyan);border-radius:0 12px 12px 0;padding:20px 24px"><h4 style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:6px">London &amp; South East  Year 1 Launch</h4><p style="font-size:13px;color:var(--text-muted);line-height:1.7">London houses over 75% of the nation's leading dark kitchen hubs and faces the highest density of EHO inspection scrutiny  the ideal launch territory for ComplyPilot AI.</p></div>
+        <div style="background:#fff;border-left:4px solid var(--electric);border-radius:0 12px 12px 0;padding:20px 24px"><h4 style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:6px">Manchester &amp; Birmingham  Year 2 Expansion</h4><p style="font-size:13px;color:var(--text-muted);line-height:1.7">Rapidly maturing, delivery-first food operators that rely on high-speed courier operations but lack corporate compliance departments  ComplyPilot AI's ideal target.</p></div>
+        <div style="background:#fff;border-left:4px solid var(--navy-mid);border-radius:0 12px 12px 0;padding:20px 24px"><h4 style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:6px">Scotland, Wales &amp; Northern Ireland  Year 3</h4><p style="font-size:13px;color:var(--text-muted);line-height:1.7">A major opportunity for the Community Compliance Network to bridge the geographical "Digital Divide" for regional independent operators.</p></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(10,22,40,.12);border-radius:18px;padding:28px">
+        <div class="label-tag">UK Hospitality Sector Forecast 2025–2026</div>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+          <div style="padding:16px;background:var(--bg-light);border-radius:10px"><div style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:4px">6.9% CAGR Through 2030</div><p style="font-size:13px;color:var(--text-muted)">Global food safety compliance tech market growing rapidly, driven by digital modernisation and SME demand for active compliance tools</p></div>
+          <div style="padding:16px;background:var(--bg-light);border-radius:10px"><div style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:4px">2.5 Million Jobs Across 115,000+ UK Outlets</div><p style="font-size:13px;color:var(--text-muted)">90% operate as SMEs or microbusinesses  even marginal compliance improvements unlock millions in unrealised margin</p></div>
+          <div style="padding:16px;background:var(--bg-light);border-radius:10px"><div style="font-family:var(--display);font-weight:700;color:var(--text-dark);margin-bottom:4px">Stabilising Inflation  1.9% Expected in 2026</div><p style="font-size:13px;color:var(--text-muted)">Allowing more predictable capital expenditure on digital compliance subscriptions, ideal for ComplyPilot AI's tiered pricing</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /market -->
+
+<!-- ═══════════════ PROCESS ═══════════════ -->
+<div class="page" id="page-process">
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">How It Works</div>
+    <h2 class="section-h2 h2-white">From Raw Kitchen Chaos to Audit-Ready Compliance DNA</h2>
+    <div class="divider div-white"></div>
+    <p class="para-w" style="max-width:700px">A four-phase R&amp;D-validated process that transforms unpredictable kitchen compliance vulnerabilities into permanent, organisational "Compliance Equity"  the competitive advantage that stays within your business even after senior chefs leave.</p>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="process-step">
+      <div>
+        <div class="step-num">Phase 01 · Capture</div>
+        <h3 class="step-h3">Compliance Logic Fingerprinting &amp; Station Baselining</h3>
+        <p class="step-p">Deploy the Compliance-Execution Fingerprinting engine to capture the behavioural baseline of successful kitchen safety management and score live station performance against CCP and allergen standards before risk escalates. The system uses real-time prep and storage data to pinpoint exactly which workflows yield zero cross-contamination and prompt corrective actions.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge badge-c"><span class="bdot"></span>ML Risk Scoring</span><span class="badge badge-c"><span class="bdot"></span>Behavioural Baseline</span><span class="badge badge-g"><span class="bdot"></span>Zero Lock-In</span></div>
+      </div>
+      <div class="step-img"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=900&q=80" alt="Compliance Fingerprinting"></div>
+    </div>
+    <div class="process-step">
+      <div class="step-img"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80" alt="Intent to Workflow Synthesis"></div>
+      <div>
+        <div class="step-num">Phase 02 · Synthesise</div>
+        <h3 class="step-h3">Intent-to-Workflow Auto-Synthesis</h3>
+        <p class="step-p">The Auto-Synthesis engine automatically deconstructs sudden supplier substitutions or complex allergen profiles into structured, multi-step preparation workflows in real-time  distinguishing routine prep from high-risk allergen events. When ingredients change without notice, ComplyPilot AI immediately restructures the prep plan, ensuring junior staff enforce expert-level allergen segregation instantly.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge badge-c"><span class="bdot"></span>Auto Deconstruction</span><span class="badge badge-c"><span class="bdot"></span>Allergen Mapping</span><span class="badge badge-g"><span class="bdot"></span>Real-Time</span></div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div>
+        <div class="step-num">Phase 03 · Diagnose</div>
+        <h3 class="step-h3">Contamination &amp; Hazard Forensics &amp; CCP Compliance</h3>
+        <p class="step-p">Complex compliance breakdowns are automatically traced back to their root cause  removing the vulnerability of manual double-checking under pressure. The Contamination &amp; Hazard Forensics Engine identifies exactly where a workflow breaks down and what corrective action is needed before an EHO inspection penalty occurs.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge badge-c"><span class="bdot"></span>CFE Diagnostics</span><span class="badge badge-c"><span class="bdot"></span>Compliance Graph</span><span class="badge badge-g"><span class="bdot"></span>50%+ Time Saved</span></div>
+      </div>
+      <div class="step-img"><img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=900&q=80" alt="Hazard Forensics"></div>
+    </div>
+    <div class="process-step">
+      <div class="step-img"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=900&q=80" alt="Compliance Equity Dashboards"></div>
+      <div>
+        <div class="step-num">Phase 04 · Equity</div>
+        <h3 class="step-h3">Outcome-Learning Memory &amp; Compliance Equity Dashboards</h3>
+        <p class="step-p">The Outcome-Learning Memory generates comprehensive dashboards linking specific ComplyPilot AI interventions to FHRS rating protection and reduced food waste. Compliance Equity continuously adapts  every successful audit "teaches" the system to refine future risk accuracy, building permanent organisational safety logic that survives staff turnover, with full FSA and ICO audit trails generated automatically.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge badge-c"><span class="bdot"></span>OLM Dashboards</span><span class="badge badge-c"><span class="bdot"></span>FSA/ICO Compliant</span><span class="badge badge-g"><span class="bdot"></span>100% Audit Accuracy</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /process -->
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<div class="page" id="page-faq">
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">Frequently Asked Questions</div>
+    <h2 class="section-h2 h2-white">Everything You Need to Know About ComplyPilot AI Solutions</h2>
+    <div class="divider div-white"></div>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container" style="max-width:860px">
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>What exactly is the "Compliance-Execution Gap" that ComplyPilot AI addresses?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">The "Compliance-Execution Gap" is the critical operational gap between regulatory registry compliance and actual kitchen-level operational control. While 85% of UK operators are digitising operations, only 29.7% have integrated structured digital food safety systems, leaving over 70% of kitchen teams with inconsistent allergen verification and temperature logging. ComplyPilot AI bridges this gap by acting as a "Real-Time Rules Compiler" between busy kitchen staff and underlying food safety legislation such as Natasha's Law and the FSA's Safer Food, Better Business framework.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>How does ComplyPilot AI integrate with our existing kitchen systems?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">ComplyPilot AI is built with a "Hardware-Agnostic" philosophy  our plug-and-play API platform connects seamlessly with dominant UK EPOS/KDS toolsets including Square, Toast, and Lightspeed, plus Bluetooth temperature probes, IoT sensors, and label printers. This minimises onboarding friction and creates deep integration without expensive proprietary hardware investments. The platform sits above your existing tools  not as a replacement for them.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is "Compliance Equity" and why is it important for UK SMEs?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">Compliance Equity is the proprietary framework by which ComplyPilot AI captures, standardises, and permanently encodes expert-level kitchen safety logic as an organisational asset. Unlike informal know-how held by individual chefs, ComplyPilot AI allows firms to own their "Operational Safety Logic" indefinitely. Even when experienced staff leave during the sector's frequent turnover, expert-level compliance rules remain embedded in the platform  instantly accessible to junior and seasonal hires.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>How accurate are the hazard forensics and risk predictions?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">Pilot validation demonstrated strong early performance: 81% of 150 UK hospitality managers rated the hazard forensics prototype as "highly impressive." Pilot deployments across 5 UK kitchen locations showed a 28% average increase in food safety log compliance, an 18% reduction in allergen cross-contamination indicators across 1,200 tested prep cycles, and new kitchen staff reaching full compliance proficiency within 14 days vs. a historical mean of 45 days. 91.2% of 182 respondents described saved workflow cloning as "valuable" or "extremely valuable."</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>How does the platform help with UK regulatory compliance (FSA, ICO, GDPR)?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">ComplyPilot AI is strategically designed to align with the UK's stringent food safety and data regulatory landscape  specifically Natasha's Law, the FSA's Safer Food Better Business framework, and the ICO's guidance on workplace monitoring and UK GDPR. The platform enables businesses to track, measure, and audit every kitchen interaction with high-fidelity logs via the Contamination &amp; Hazard Forensics Engine, providing a robust, audit-ready trail for EHO inquiries while protecting individual staff privacy.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>Is sensitive kitchen data secure? How does the Community Compliance Network (CCN) work?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">ComplyPilot AI maintains strict adherence to UK GDPR, ICO data protection guidance, and FSA digital modernisation goals. The Community Compliance Network uses federated learning architecture  enabling anonymised "Compliance DNA" from UK hospitality operators to continuously improve predictive models without sharing sensitive corporate or client data. All kitchen data is processed by secure cloud-native infrastructure with end-to-end encryption, and all data entering the CCN is fully anonymised before sharing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>What pricing plans are available and who are they designed for?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">ComplyPilot AI offers three SaaS subscription tiers: Logic Core at £50/month for independent cafes, bistros and bakeries (daily food safety checklists, CCP logging, SFBB compliant archiving); DNA Architect at £150/month for high-volume QSRs and dark kitchens (behavioural cloning, safety fingerprinting, real-time EPOS sync); and Compliance Sovereign at £300/month for multi-unit operators and caterers (Contamination &amp; Hazard Forensics, automated allergen mapping, CCN benchmarking). One-off fees include £400–600 for IoT Calibration &amp; API Sync, and £450–500 for a Compliance Health Assessment.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)"><h4>What are the growth plans for ComplyPilot AI?</h4><span class="faq-icon">+</span></div>
+        <div class="faq-body">Year 1 focuses on QSRs, cafes and dark kitchens in London and Birmingham (5–10 pilot sites). Year 2 expands to 50–100 active outlets across Manchester, Leeds, Bristol, and Birmingham with plug-and-play EPOS connectivity. Year 3 enters all UK regions and initiates early European pilot programmes in Germany and the Netherlands. By Years 4–5, the platform targets 500+ outlets internationally, ultimately creating over 20 UK-based jobs and establishing ComplyPilot AI as the global standard for independent hospitality compliance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /faq -->
+
+<!-- ═══════════════ PRICING ═══════════════ -->
+<div class="page" id="page-pricing">
+<section class="sec-dark">
+  <div class="container">
+    <div class="label-tag-w">Pricing &amp; Plans</div>
+    <h2 class="section-h2 h2-white">SME-Optimised. Compliance-Protecting. Audit-Ready-as-a-Service.</h2>
+    <div class="divider div-white"></div>
+    <p class="para-w" style="max-width:700px">Tiered pricing designed to provide accessibility for independent cafes while scaling to full AI-enabled behavioural cloning and federated benchmarking for multi-site catering groups  starting at just £50/month.</p>
+  </div>
+</section>
+<section class="sec-light">
+  <div class="container">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter Plan</div>
+        <div class="price-title">Logic Core</div>
+        <div class="price-amount">£50<span>/month</span></div>
+        <div class="price-desc">For independent cafes, bistros and bakeries taking their first step into AI-driven compliance governance.</div>
+        <ul class="price-feat">
+          <li>Daily food safety checklists</li>
+          <li>CCP temperature logging</li>
+          <li>SFBB compliant digital archiving</li>
+          <li>Basic allergen tracking dashboard</li>
+          <li>Email alerts for high-risk events</li>
+          <li>Monthly compliance summary report</li>
+          <li>UK GDPR compliant data processing</li>
+        </ul>
+        <button class="btn-s" onclick="showPage('contact')" style="width:100%;justify-content:center">Get Started</button>
+      </div>
+      <div class="price-card featured">
+        <div class="feat-lbl">Most Popular</div>
+        <div class="price-tier">Professional Plan</div>
+        <div class="price-title">DNA Architect</div>
+        <div class="price-amount">£150<span>/month</span></div>
+        <div class="price-desc">For high-volume QSRs, fast-casual restaurants and dark kitchens requiring full behavioural cloning.</div>
+        <ul class="price-feat">
+          <li>Advanced kitchen behavioural cloning</li>
+          <li>Compliance-Execution Fingerprinting</li>
+          <li>Real-time EPOS/KDS/inventory sync</li>
+          <li>Square, Toast &amp; Lightspeed integration</li>
+          <li>Intent-to-Workflow Auto-Synthesis</li>
+          <li>Allergen segregation alerts</li>
+          <li>FSA/ICO compliance reporting</li>
+          <li>Real-time forensic alert dashboard</li>
+        </ul>
+        <button class="btn-p" onclick="showPage('contact')" style="width:100%;justify-content:center">Start Free Trial</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Enterprise Plan</div>
+        <div class="price-title">Compliance Sovereign</div>
+        <div class="price-amount">£300<span>/month</span></div>
+        <div class="price-desc">For multi-unit independent operators and caterers requiring complete forensic compliance intelligence and CCN access.</div>
+        <ul class="price-feat">
+          <li>Custom Contamination &amp; Hazard Forensics</li>
+          <li>Automated allergen compliance mapping</li>
+          <li>Community Compliance Network (CCN) access</li>
+          <li>Federated benchmarking</li>
+          <li>Dedicated compliance success manager</li>
+          <li>Advanced Compliance Equity reporting</li>
+          <li>API licensing for custom integrations</li>
+          <li>Priority 24/7 technical support</li>
+        </ul>
+        <button class="btn-s" onclick="showPage('contact')" style="width:100%;justify-content:center">Contact Sales</button>
+      </div>
+    </div>
+    <div style="margin-top:56px">
+      <div class="label-tag">Professional Add-Ons</div>
+      <h3 style="font-family:var(--display);font-size:26px;font-weight:700;color:var(--text-dark);margin-bottom:28px">Additional Services</h3>
+      <div class="addons-grid">
+        <div class="addon-card"><div class="addon-icon"><i class="fas fa-plug"></i></div><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:6px">One-off Fee</div><h4>IoT Calibration &amp; API Sync  £400–600/firm</h4><p>One-time supply and integration of Bluetooth smart temperature probes, IoT kitchen sensor calibrations, and customised EPOS labelling printer configurations  fully integrated from day one with zero disruption.</p></div></div>
+        <div class="addon-card"><div class="addon-icon"><i class="fas fa-stethoscope"></i></div><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:6px">One-off Fee</div><h4>Compliance Health Assessment  £450–500/session</h4><p>Custom on-site food safety and allergen audits of legacy kitchen prep processes, mock EHO assessments, and initial team-wide Compliance Logic setup and training.</p></div></div>
+        <div class="addon-card"><div class="addon-icon"><i class="fas fa-chart-bar"></i></div><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--electric-dim);margin-bottom:6px">Annual Subscription</div><h4>Premium CCN Benchmark Reports  Custom Pricing</h4><p>Advanced sector benchmarking and "Compliance Equity" growth insights via the Community Compliance Network  essential for multi-site operators requiring strategic scaling and FHRS protection reporting.</p></div></div>
+        <div style="background:linear-gradient(135deg,var(--navy),var(--navy-deep));border-radius:16px;padding:28px;display:flex;gap:20px"><div style="width:52px;height:52px;border-radius:12px;background:rgba(22,199,199,.15);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:22px;flex-shrink:0;border:1px solid rgba(22,199,199,.3)"><i class="fas fa-handshake"></i></div><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(22,199,199,.85);margin-bottom:6px">Pilot Programme</div><h4 style="font-family:var(--display);font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">8-Week UK Pilot  Tailored Pricing</h4><p style="font-size:13px;color:rgba(255,255,255,.75);line-height:1.7">Join our current cohort of London and UK-wide QSRs and dark kitchens for a fully supported 8-week pilot deployment  with direct access to the ComplyPilot AI founding team and Nishant Dawar's personal culinary and technical guidance.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /pricing -->
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<div class="page" id="page-contact">
+<section class="contact-hero">
+  <div class="container">
+
+    <div class="label-tag-w">Get in Touch</div>
+    <h2 class="section-h2 h2-white">Request a Demo or Join the UK Pilot Programme</h2>
+    <div class="divider div-white"></div>
+
+    <div class="contact-wrap">
+
+      <!-- CONTACT FORM -->
+      <div class="contact-form">
+
+        <h3 style="font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:6px">
+          Book Your Platform Demo
+        </h3>
+
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;line-height:1.7">
+          Fill in your details and our team will contact you within 24 hours to schedule a live demonstration of the ComplyPilot AI platform.
+        </p>
+
+        <form action="https://api.web3forms.com/submit" method="POST">
+
+          <input type="hidden" name="access_key" value="7351bb12-7ffe-4d57-bd07-84ca10fc4996">
+          <input type="hidden" name="subject" value="New ComplyPilot AI Solutions Demo Request">
+          <input type="hidden" name="from_name" value="ComplyPilot AI Solutions Website">
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="Your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Business Email</label>
+            <input type="email" name="email" placeholder="you@yourcompany.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Restaurant / Kitchen Name</label>
+            <input type="text" name="company" placeholder="Your business or kitchen name">
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="+44 7XXX XXX XXX">
+          </div>
+
+          <div class="form-group">
+            <label>Number of Kitchen / Site Locations</label>
+            <select name="agents">
+              <option>1 site (independent kitchen)</option>
+              <option>2–5 sites</option>
+              <option>6–20 sites</option>
+              <option>21–50 sites</option>
+              <option>50+ sites</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Your Biggest Compliance Challenge</label>
+            <textarea
+              name="message"
+              rows="5"
+              placeholder="Tell us about your current allergen tracking gaps, manual logging bottlenecks, staff turnover knowledge loss, EHO audit concerns, or compliance pain points..."
+              required></textarea>
+          </div>
+
+          <button type="submit" class="btn-p" style="width:100%;justify-content:center;margin-top:10px">
+            Send Demo Request
+            <i class="fas fa-arrow-right" style="margin-left:6px"></i>
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div class="contact-info">
+
+        <h3>ComplyPilot AI Solutions</h3>
+
+        <div class="sub">
+          Navigate Compliance. Drive Confidence. The UK's AI-driven Operational Intelligence &amp; Food Safety Compliance Platform for hospitality SMEs, dark kitchens, and multi-site catering groups.
+        </div>
+
+        <div class="c-detail">
+          <div class="ic"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <strong>Headquarters</strong>
+            <span>London, United Kingdom</span>
+          </div>
+        </div>
+
+        <div class="c-detail">
+          <div class="ic"><i class="fas fa-globe"></i></div>
+          <div>
+            <strong>Website</strong>
+            <span>complypilotaisolutions.com</span>
+          </div>
+        </div>
+
+        <div class="c-detail">
+          <div class="ic"><i class="fas fa-user-tie"></i></div>
+          <div>
+            <strong>Founder &amp; CEO</strong>
+            <span>Nishant Dawar · MSc International Business (Luton)</span>
+          </div>
+        </div>
+
+        <div class="c-detail">
+          <div class="ic"><i class="fas fa-calendar-check"></i></div>
+          <div>
+            <strong>Pilot Programme</strong>
+            <span>Recruiting UK QSRs, cafes and dark kitchens for 8-week Compliance DNA pilot deployments</span>
+          </div>
+        </div>
+
+        <div style="margin-top:28px;padding:20px;background:rgba(22,199,199,.08);border-radius:16px;border:1px solid rgba(22,199,199,.22)">
+
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#16C7C7;margin-bottom:14px">
+            Pilot Performance Metrics
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.82)">
+              <span>Food safety log compliance increase</span>
+              <strong style="color:#16C7C7">+28%</strong>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.82)">
+              <span>Allergen cross-contamination reduction</span>
+              <strong style="color:#16C7C7">-18%</strong>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.82)">
+              <span>Staff compliance onboarding time</span>
+              <strong style="color:#16C7C7">14 days</strong>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:rgba(255,255,255,.82)">
+              <span>Compliance accuracy improvement</span>
+              <strong style="color:#16C7C7">90%+</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /contact-info -->
+
+    </div>
+  </div>
+</section>
+</div>
+<!-- /contact -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="f-brand">ComplyPilot AI Solutions</div>
+        <div class="f-desc">The UK's AI-powered Operational Intelligence &amp; Food Safety Compliance Platform  converting kitchen complexity into proprietary Compliance DNA, preventing allergen incidents, and building permanent "Compliance Equity" for UK hospitality SMEs and dark kitchens.<br><br><em style="color:rgba(22,199,199,.8);font-style:normal">"At ComplyPilot AI, we make compliance simple, continuous, and intelligent  so organisations can focus on growth while we handle the complexity."   Nishant Dawar, Founder &amp; CEO</em></div>
+        <div class=f-badges">
+          <span class="f-badge">AI-Powered</span><span class="f-badge">Real-Time Rules Compiler</span><span class="f-badge">Cloud SaaS</span><span class="f-badge">UK GDPR Compliant</span><span class="f-badge">FSA Aligned</span><span class="f-badge">ESG Aligned</span>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Platform</div>
+        <div class="f-col">
+          <a onclick="showPage('platform')">Compliance Fingerprinting</a>
+          <a onclick="showPage('platform')">Hazard Forensics Engine</a>
+          <a onclick="showPage('platform')">Outcome-Learning Memory</a>
+          <a onclick="showPage('platform')">Intent-to-Workflow Synthesis</a>
+          <a onclick="showPage('platform')">Community Compliance Network</a>
+          <a onclick="showPage('platform')">Hardware-Agnostic Integration</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Company</div>
+        <div class="f-col">
+          <a onclick="showPage('about')">About ComplyPilot AI Solutions</a>
+          <a onclick="showPage('about')">Nishant Dawar · Founder</a>
+          <a onclick="showPage('process')">How It Works</a>
+          <a onclick="showPage('faq')">FAQ</a>
+          <a onclick="showPage('market')">Market Analysis</a>
+          <a onclick="showPage('contact')">Request a Demo</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Solutions</div>
+        <div class="f-col">
+          <a onclick="showPage('platform')">Quick Service Restaurants</a>
+          <a onclick="showPage('platform')">Dark Kitchens &amp; Delivery</a>
+          <a onclick="showPage('platform')">Boutique Catering &amp; Events</a>
+          <a onclick="showPage('platform')">Multi-Unit Independent Groups</a>
+          <a onclick="showPage('pricing')">Logic Core · £50/mo</a>
+          <a onclick="showPage('pricing')">DNA Architect · £150/mo</a>
+          <a onclick="showPage('pricing')">Compliance Sovereign · £300/mo</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <p>© 2026 <span>ComplyPilot AI Solutions</span> · London, UK · UK GDPR Compliant · complypilotaisolutions.com · Founded by Nishant Dawar</p>
+      <div class="footer-links">
+        <a onclick="showPage('contact')">Privacy Policy</a>
+        <a onclick="showPage('contact')">Terms of Service</a>
+        <a onclick="showPage('contact')">FSA Compliance</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+n);
+  if(pg)pg.classList.add('active');
+  const bt=document.getElementById('nav-'+n);
+  if(bt)bt.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if(n==='market'&&!window._charts){initCharts();window._charts=true;}
+}
+function toggleCard(btn){
+  const c=btn.closest('.plat-card');
+  c.classList.toggle('open');
+  btn.innerHTML=c.classList.contains('open')?'Show Less':'Learn More';
+}
+function toggleFAQ(el){el.parentElement.classList.toggle('open');}
+function closeMob(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+const C='rgba(22,199,199,.85)',C2='rgba(22,199,199,.4)',E='rgba(47,111,237,.85)',E2='rgba(47,111,237,.45)',G='rgba(31,190,130,.8)',GR='rgba(10,22,40,.06)',MT='rgba(28,53,86,.85)';
+Chart.defaults.font.family="'IBM Plex Mono',monospace";Chart.defaults.font.size=11;Chart.defaults.color=MT;
+function initCharts(){
+  new Chart(document.getElementById('chartSector'),{type:'bar',data:{labels:['Pencil-Whipping Logs','EHO Inspection Anxiety','Allergen Mapping','Staff Turnover Loss','Supplier Substitutions'],datasets:[{label:'Friction Share (%)',data:[28,27.5,17.6,34,21],backgroundColor:[C,E,C2,E2,G],borderRadius:6,barPercentage:.6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:GR},ticks:{callback:v=>v+'%'}}}}});
+  new Chart(document.getElementById('chartRootCause'),{type:'doughnut',data:{labels:['Workflow Cloning Valuable (91.2%)','Pre-Risk Scoring Critical (88%+)','Auto Workflows Useful (89.9%)','Hazard Forensics Useful (83%)','Willing to Join Pilot (87.3%)'],datasets:[{data:[91.2,88,89.9,83,87.3],backgroundColor:[C,E,G,C2,E2],borderWidth:1.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:8,font:{size:9}}}}}});
+  new Chart(document.getElementById('chartRadar'),{type:'radar',data:{labels:['Closed-Loop Guidance','Pencil-Whip Forensics','Compliance Fingerprinting','UK Regulatory Focus','Federated CCN','SME Pricing'],datasets:[{label:'ComplyPilot AI',data:[5,5,5,5,5,5],backgroundColor:'rgba(22,199,199,.08)',borderColor:C,borderWidth:2,pointBackgroundColor:C},{label:'Hardware (Monika)',data:[1,1,1,1,1,1],backgroundColor:'rgba(47,111,237,.04)',borderColor:E2,borderWidth:1.5,pointBackgroundColor:E2},{label:'Audit Apps (SafetyCulture)',data:[1,1,1,1,1,3],backgroundColor:'rgba(10,22,40,.03)',borderColor:'rgba(10,22,40,.4)',borderWidth:1.5,pointBackgroundColor:'rgba(10,22,40,.4)'},{label:'Advisory Binders (FSA SFBB)',data:[1,1,1,2,1,5],backgroundColor:'rgba(31,190,130,.04)',borderColor:'rgba(31,190,130,.5)',borderWidth:1.5,pointBackgroundColor:'rgba(31,190,130,.5)'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10,font:{size:9}}}},scales:{r:{grid:{color:GR},pointLabels:{font:{size:10}},ticks:{display:false},min:0,max:5}}}});
+  new Chart(document.getElementById('chartGrowth'),{type:'bar',data:{labels:['2023','2024','2025','2026','2027','2028','2029','2030'],datasets:[{label:'Global Compliance Tech Market (USD B)',data:[22.4,24,25.7,27.5,29.4,31.5,33.6,35.8],backgroundColor:E,borderRadius:5,barPercentage:.55},{type:'line',label:'CAGR %',data:[null,6.9,6.9,6.9,6.9,6.9,6.9,6.9],borderColor:C,borderWidth:2,yAxisID:'y2',tension:.4,pointBackgroundColor:C,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10,font:{size:10}}}},scales:{x:{grid:{color:GR}},y:{grid:{color:GR},ticks:{callback:v=>'$'+v+'B'}},y2:{position:'right',grid:{display:false},ticks:{callback:v=>v+'%'}}}}});
+}
+</script>
+</body>
+</html>
